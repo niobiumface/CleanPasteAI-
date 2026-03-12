@@ -1,65 +1,49 @@
 # ✨ CleanPaste AI
 
-**CleanPaste AI** ist eine mächtige, 100% lokale Chrome Extension (Manifest V3), die Entwicklern, Copywritern und Power-Usern das Leben rettet. Sie befreit kopierten Text von KI-Sprachmodellen (ChatGPT, Claude, Gemini) vollautomatisch von Wasserzeichen, störendem Markdown, unsichtbaren Zeichen und lästigen "KI-Floskeln".
+**CleanPaste AI** is a powerful, privacy-first Chrome Extension (Manifest V3) designed for developers, copywriters, and power users. It automatically cleans text copied from LLMs (like ChatGPT, Claude, and Gemini) by removing watermarks, unwanted Markdown, invisible zero-width characters, and repetitive "AI phrases."
 
-Das Projekt ist komplett in **Vanilla JavaScript, HTML und CSS** geschrieben. Es gibt keine externen API-Aufrufe, kein Tracking und keine Build-Pipelines. Deine Daten verlassen niemals deinen Browser.
+Built entirely with **Vanilla JavaScript, HTML, and CSS**, CleanPaste AI requires no external API calls, contains zero tracking, and uses no build pipelines. Your clipboard data never leaves your local browser sandbox.
 
----
+## 🚀 Features
 
-## 🚀 Hauptfunktionen
+* **🪄 Intelligent Context Detection:** Automatically detects the source LLM (ChatGPT, Claude, Gemini) based on the active tab and applies tailored processing profiles (e.g., stripping LaTeX brackets for ChatGPT, removing UI artifacts for Gemini).
+* **🕵️‍♂️ Ghost Paste (Simulate Typing):** Bypasses strict paste-blockers on legacy systems or secure forms by simulating hundreds of rapid `KeyboardEvents` instead of using the clipboard.
+* **🧑‍💻 Code Extractor:** A specialized context menu option that ignores all conversational text and only extracts the raw code blocks.
+* **📝 Advanced Formatters:** Instantly convert bulleted lists into comma-separated strings or format text casing to `UPPERCASE`, `lowercase`, `camelCase`, or `Title Case`.
+* **🧹 Link Purifier & Emoji Destroyer:** Automatically strip tracking parameters (`utm_source`, `fbclid`, etc.) from URLs embedded in the text, and an optional toggle to remove all emojis for professional communication.
+* **🖱️ Hover Toolbar:** An optional, non-intrusive floating `✨` toolbar that appears on text selection for instant one-click cleaning and copying.
+* **📋 Clipboard History:** Maintains a local history of your recent clean actions (up to 50 items). Features real-time search and inline editing for quick snippet corrections.
+* **🌍 Settings Sync & Backup:** Export and import your custom configurations, phrase lists, and Regex rules safely via JSON.
+* **📊 Usage Statistics:** A local gamification dashboard tracks the exact number of invisible characters destroyed and estimates the time you've saved using the extension.
 
-* **🪄 Intelligente KI-Bereinigung:** Erkennt automatisch die Quelle (ChatGPT, Claude, Gemini) anhand der URL und wendet spezialisierte Säuberungsprofile an (z.B. LaTeX-Korrektur für ChatGPT, UI-Element-Entfernung für Gemini).
-* **🕵️‍♂️ Ghost Paste (Simulate Typing):** Umgeht strenge Paste-Blocker (z.B. bei Banken oder alten Formularen), indem die Extension hunderte echte Tastaturanschläge simuliert, anstatt die Zwischenablage zu nutzen.
-* **🧑‍💻 Code Extractor:** Ein spezieller Modus im Kontextmenü, der den gesamten Erklärtext eines LLMs ignoriert und *nur* den geschriebenen Code in die Zwischenablage kopiert.
-* **📝 Advanced Formatters:** Konvertiert Bullet-Point-Listen mit einem Klick in kommaseparierte Werte oder ändert Text blitzschnell zu `UPPERCASE`, `lowercase`, `camelCase` oder `Title Case`.
-* **🧹 Link-Purifier & Emoji-Destroyer:** Entfernt auf Wunsch alle Tracking-Parameter (`utm_source`, `fbclid` etc.) aus Links und säubert formelle Geschäftstexte von Emojis.
-* **🖱️ Hover Toolbar:** Ein optionales, schwebendes `✨`-Icon direkt am Mauszeiger, das markierten Text mit einem Klick bereinigt und kopiert.
-* **📋 Clipboard History:** Behält (auf Wunsch bis zu 50) der letzten Operationen lokal im Speicher. Inklusive Echtzeit-Suche und Möglichkeit, alte Snipets inline im Popup zu editieren.
-* **🌍 Backup & Restore:** Exportiere und importiere deine Settings, AI-Phrasen und Custom-Regex-Regeln als JSON-Datei.
-* **📊 Gamification:** Das Popup zeigt dir genau an, wie viele unsichtbare Zeichen/Wasserzeichen du bereits "zerstört" hast und rechnet dir die dadurch gerettete Lebenszeit aus.
+## ⚙️ Installation
 
----
+To install CleanPaste AI locally in developer mode:
 
-## ⚙️ Installation (Entwicklermodus)
-
-Da dies eine private/lokale Extension ist, muss sie manuell in Chrome geladen werden:
-
-1. Lade dir dieses Repository herunter oder klone es auf deinen Rechner:
+1. Clone or download this repository:
    ```bash
    git clone https://github.com/niobiumface/CleanPasteAI-.git
    ```
-2. Öffne den Google Chrome Browser und gehe zur URL: **`chrome://extensions/`**
-3. Aktiviere oben rechts den Schalter für den **Entwicklermodus** ("Developer mode").
-4. Klicke oben links auf den Button **Entpackte Erweiterung laden** ("Load unpacked").
-5. Wähle den Ordner aus, der die `manifest.json` dieses Projekts enthält (der Root-Ordner `CleanPasteAI`).
+2. Open Google Chrome and navigate to **`chrome://extensions/`**.
+3. Enable **Developer mode** via the toggle in the top-right corner.
+4. Click the **Load unpacked** button.
+5. Select the `CleanPasteAI` root folder containing the `manifest.json`.
 
-Die Extension ist nun aktiv und installiert!
+## ⌨️ Usage & Shortcuts
 
----
+* **Context Menu:** Highlight any text, right-click, and navigate to "✨ CleanPaste AI" to select a specific cleaning profile.
+* **Direct Paste:** Right-click inside any editable text field and select **"📋 Clean & Paste here"** (or **"👻 Ghost Paste"**).
+* **Quick Shortcut:** Press `Alt + C` to instantly clean the highlighted text using the generic profile and copy it to your clipboard. *(This shortcut can be changed in `chrome://extensions/shortcuts`)*.
 
-## ⌨️ Bedienung & Shortcuts
+## 🛠️ Configuration & Power Tools
 
-* **Rechtsklick-Menü:** Markiere einen beliebigen Text auf einer Webseite, mache einen Rechtsklick und wähle unter "✨ CleanPaste AI" dein gewünschtes Reinigungsprofil aus.
-* **Direktes Einfügen:** Klicke mit der rechten Maustaste in ein leeres Textfeld und wähle **"📋 Clean & Paste here"** (oder **"👻 Ghost Paste"**).
-* **Tastenkürzel:** Drücke standardmäßig `Alt + C`, um markierten Text sofort als generisches Profil zu reinigen und in die Zwischenablage zu befördern. *(Das Kürzel lässt sich in den Chrome-Einstellungen unter `chrome://extensions/shortcuts` anpassen).*
+Clicking the extension icon and opening the Settings gear (`options.html`) unlocks advanced controls:
 
----
+* **Remove Typical AI Formulations:** Define an editable list of repetitive phrases (e.g., *"In conclusion"*, *"As an AI language model"*). The extension will silently slice these out of the text.
+* **Homoglyph Normalization:** Converts common Cyrillic "fakes" back to their Latin equivalents and eradicates invisible zero-width characters (e.g., `\u200B`).
+* **Custom Regex Engine:** Define your own RegEx patterns and replacements to run over the text sequentially during the cleaning process.
 
-## 🛠️ Einstellungen & Power-Features
-
-Ein Klick auf das Zahnrad-Icon im Extension-Popup öffnet das ausführliche Dashboard (`options.html`). Dort können Power-User die Extension exakt auf ihren Workflow abstimmen:
-
-* **Typische KI-Formulierungen löschen:** Aktiviere den Toggle und pflege eine Wortliste (z.B. *"Zusammenfassend lässt sich sagen"*, *"Als KI-Sprachmodell"*). Die Extension schneidet diese Sätze nahtlos aus dem kopierten Text heraus.
-* **Homoglyphen & Zero-Width-Characters:** Normalisiert kyrillische "Fakes" von lateinischen Buchstaben und vernichtet unsichtbare Wasserzeichen-Tags (z.B. `\u200B`).
-* **Custom Regex Engine:** Du kannst eigene Regex-Pattern definieren, die während des Kopiervorgangs live über den Text laufen. Mit einem Flag (z.B. `/pattern/gi`) und dynamischen Replacements.
-
----
-
-## 🔒 Privatsphäre & Sicherheit
+## 🔒 Privacy & Architecture
 
 **100% Local & Offline.** 
-Diese Extension baut zu keinem Zeitpunkt eine Verbindung zu einem externen Server auf. Weder Analytics noch API-Calls. Alle Berechnungen, Regex-Prüfungen und DOM-Manipulationen erfolgen clientseitig innerhalb der Sandbox von Manifest V3. Deine History wird ausschließlich über die lokale `chrome.storage.local` API auf deiner Festplatte gespeichert.
-
----
-
-*Made with ❤️ by AI for Human Workflows.*
+This extension never connects to an external server. It contains no analytics and makes zero API calls. All processing, RegEx validations, and DOM manipulations are performed client-side within the Manifest V3 sandbox. Your clipboard history is stored exclusively on your device using the `chrome.storage.local` API.
