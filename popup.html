@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CleanPaste AI</title>
+  <style>
+    :root { --bg-color: #f9fafb; --text-color: #1f2937; --primary: #4f46e5; --primary-hover: #4338ca; --border: #e5e7eb; --success: #10b981; }
+    body { width: 340px; margin: 0; padding: 16px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: var(--bg-color); color: var(--text-color); display: flex; flex-direction: column; gap: 12px; }
+    .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+    h1 { font-size: 18px; margin: 0; display: flex; align-items: center; gap: 6px; color: var(--primary); }
+    .settings-btn { background: none; border: none; cursor: pointer; color: #6b7280; padding: 4px; transition: color 0.2s; display: flex; align-items: center; }
+    .settings-btn:hover { color: var(--text-color); }
+    
+    .tabs { display: flex; gap: 8px; border-bottom: 1px solid var(--border); margin-bottom: 8px; padding-bottom: 8px;}
+    .tab-btn { background: none; border: none; font-size: 13px; font-weight: 500; color: #6b7280; cursor: pointer; padding: 4px 8px; border-radius: 4px; transition: background 0.2s; }
+    .tab-btn.active { color: var(--primary); background: #e0e7ff; }
+    .tab-btn:hover:not(.active) { background: #f3f4f6; }
+
+    textarea { width: 100%; height: 80px; padding: 10px; border: 1px solid var(--border); border-radius: 6px; resize: none; font-family: monospace; font-size: 12px; box-sizing: border-box; outline: none; line-height: 1.4; margin-bottom: 8px; }
+    textarea:focus { border-color: var(--primary); }
+    button.clean-btn { background-color: var(--primary); color: white; border: none; padding: 10px; border-radius: 6px; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; transition: background 0.2s;}
+    button.clean-btn:hover { background-color: var(--primary-hover); }
+    button.success { background-color: var(--success); }
+    
+    h3 { margin: 12px 0 8px 0; font-size: 13px; color: #4b5563; }
+    .history-list { display: flex; flex-direction: column; gap: 6px; max-height: 150px; overflow-y: auto; }
+    .history-item { background: white; border: 1px solid var(--border); padding: 8px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: border-color 0.1s; display: flex; justify-content: space-between; align-items: center; }
+    .history-item:hover { border-color: var(--primary); }
+    .history-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px; color: var(--text-color); }
+    .history-copy-icon { opacity: 0; color: var(--primary); transition: opacity 0.2s; }
+    .history-item:hover .history-copy-icon { opacity: 1; }
+    .empty-history { font-size: 12px; color: #9ca3af; text-align: center; padding: 10px; }
+
+    /* Gamification Stats View */
+    .stat-box { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 12px; text-align: center; margin-bottom: 8px;}
+    .stat-val { font-size: 24px; font-weight: bold; color: var(--primary); margin-bottom: 4px; }
+    .stat-label { font-size: 12px; color: #6b7280; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;}
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>✨ CleanPaste AI</h1>
+    <button class="settings-btn" id="openSettingsBtn" title="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></button>
+  </div>
+
+  <div class="tabs">
+    <button id="tabClean" class="tab-btn active">🧹 Clean Tool</button>
+    <button id="tabStats" class="tab-btn">📊 Statistics</button>
+  </div>
+
+  <!-- CLEAN VIEW -->
+  <div id="viewClean">
+    <textarea id="manualInput" placeholder="Manual Paste: Paste dirty text here..."></textarea>
+    <button id="cleanBtn" class="clean-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+      Clean & Copy
+    </button>
+    
+    <h3>Clipboard History (Last 5)</h3>
+    <div id="historyList" class="history-list"></div>
+  </div>
+
+  <!-- STATS VIEW -->
+  <div id="viewStats" style="display: none;">
+    <div class="stat-box">
+      <div class="stat-val" id="statUses">0</div>
+      <div class="stat-label">Total Magic Saves</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val" id="statChars">0</div>
+      <div class="stat-label">Characters Destroyed</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val" id="statTime">0m</div>
+      <div class="stat-label">Estimated Time Saved</div>
+    </div>
+    <p style="font-size:11px; color:#9ca3af; text-align:center; margin-top:12px;">Based on 0.05s per backspace/delete action.</p>
+  </div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
